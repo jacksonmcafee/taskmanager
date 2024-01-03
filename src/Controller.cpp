@@ -9,19 +9,23 @@ Controller::Controller() {
   // define storage file (json)
   file = "store.json";
 
-  // deserialize data into taskList
-  std::ifstream is(file);
-  if (is.good()) {
-    // create input archive
-    cereal::JSONInputArchive archive(is);
+  // try to deserialize data into taskList
+  try {
+    std::ifstream is(file);
+    if (is.good()) {
+      // create input archive
+      cereal::JSONInputArchive archive(is);
 
-    // clear and populate taskList 
-    taskList.clear();
-    archive(taskList);
-  } else {
-    // file is nonexistent, create it
+      // clear and populate taskList 
+      taskList.clear();
+      archive(taskList);
+    }
+  }
+  catch (cereal::RapidJSONException& e) {
+    // file is empty / doesn't exist
+    taskList.clear(); 
     std::ofstream os(file);
-    os.close();
+    os.close(); 
   }
 }
 
@@ -56,9 +60,7 @@ void Controller::DeleteTask(int index) {
 }
 
 void Controller::ClearTaskList() {
-  for (int i = taskList.size() - 1; i == 0; --i) {
-    DeleteTask(i); 
-  }
+  taskList.clear();
 }
 
 void Controller::ShowTask(int index) {
@@ -82,12 +84,18 @@ void Controller::ShowTasks() {
   }
 }
 
-Task* Controller::GetTask(int index) {
-  // check if index is valid
-  if (index < 0 && index >= taskList.size()) {
-    return nullptr;
+/*
+std::vector<std::tuple<int, Task>> Controller::SearchTasks(std::string search) {
+  std::vector<std::tuple<int, Task>> tVec;
+
+  // iterate through tasklist and check if Task.name or Task.description match
+  for (int i = 0; i < taskList.size(); ++i) {
+    Task task = taskList[i];
+    if (task.getName() == search || task.getDescription() == search) {
+      tVec.emplace_back(std::make_tuple(i, task));
+    }
   }
 
-  // return the task at index
-  return &taskList[index];
+  return tVec;
 }
+*/
