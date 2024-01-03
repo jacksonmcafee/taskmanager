@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include "cereal/archives/json.hpp"
+#include "cereal/types/string.hpp"
 
 class Task {
   public:
@@ -13,9 +15,14 @@ class Task {
     // getters and setters
     std::string getName();
     void setName(std::string name);
-
+  
     std::string getDescription();
     void setDescription(std::string description);
+ 
+    template <class Archive>
+    void serialize(Archive& archive) {
+      archive(this->name, this->description);
+    }
 
   private:
     std::string name;

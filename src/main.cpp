@@ -2,15 +2,11 @@
 
 int main() {
   Controller controller;
-
-  controller.AddTask("New Task", "New Description");
-  controller.AddTask("Other Task", "Other Description");
-
+  
   controller.ShowTasks();
 
-  controller.DeleteTask(1);
+  controller.ClearTaskList();
 
   controller.ShowTasks();
-
   return 0;
 }
