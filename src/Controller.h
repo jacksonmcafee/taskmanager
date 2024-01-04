@@ -21,7 +21,7 @@ class Controller {
     void ShowTasks();
  
     // search for tasks
-    // std::vector<std::tuple<int, Task>> SearchTasks(std::string search);
+    std::vector<std::tuple<int, Task>> SearchTasks(std::string search);
 
     // tasklist
     std::vector<Task> taskList;
