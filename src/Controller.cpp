@@ -35,6 +35,7 @@ Controller::~Controller() {
   std::ofstream os(file);
   cereal::JSONOutputArchive archive(os);
 
+  // depopulate tasklist and clear
   archive(taskList);
   taskList.clear();
 }
@@ -50,11 +51,11 @@ void Controller::AddTask(Task task) {
 }
 
 void Controller::DeleteTask(int index) {
-  // check if index is valid
-  if (index < 0 && index >= taskList.size()) {
-    return;
+  // check if index is valid  
+  if (index < 0 || index >= taskList.size()) {
+      throw std::out_of_range("Index out of range: " + std::to_string(index));
   }
-
+  
   // remove task at index
   taskList.erase(taskList.begin() + index);
 }
@@ -84,7 +85,6 @@ void Controller::ShowTasks() {
   }
 }
 
-/*
 std::vector<std::tuple<int, Task>> Controller::SearchTasks(std::string search) {
   std::vector<std::tuple<int, Task>> tVec;
 
@@ -98,4 +98,3 @@ std::vector<std::tuple<int, Task>> Controller::SearchTasks(std::string search) {
 
   return tVec;
 }
-*/
