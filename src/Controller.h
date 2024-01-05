@@ -12,11 +12,11 @@ class Controller {
     // tasklist modification 
     void AddTask(std::string name, std::string description);
     void AddTask(Task task);
-    void DeleteTask(int index);
+    void DeleteTask(size_t index);
     void ClearTaskList();
   
     // tasklist display
-    void ShowTask(int index);
+    void ShowTask(size_t index);
     void ShowTasks();
  
     // search for tasks
@@ -27,7 +27,7 @@ class Controller {
     std::string file;
 
   private:
-    bool validateIndex(int index) {
+    bool validateIndex(size_t index) {
       if (index < 0 || index >= taskList.size()) {
         return false;
       } else {

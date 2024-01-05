@@ -74,11 +74,16 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   // get command if it exists
   // otherwise, command is of type CommandType::NONE
   CommandType command;
-  auto it = commandMap.find(parsed.at(0));
-  if (it != commandMap.end()) {
-    command = it->second;
-  } else {
-    command = CommandType::NONE;
+  try {
+    auto it = commandMap.find(parsed.at(0)); 
+    if (it != commandMap.end()) {
+      command = it->second;
+    } else {
+      command = CommandType::NONE;
+    }
+  } catch (const std::out_of_range& oor) {
+    // parsed is empty, no arg passed, don't handle
+    return true;
   }
 
   // initialize string variables
@@ -89,6 +94,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
     case CommandType::ADD:
       // handle out of range access
       // TODO: Warn if no name or desc were passed, use GetAddUsage()
+      // instead of adding a blank Task
       str1 = (parsed.size() > 1) ? parsed.at(1) : "no name";
       str2 = (parsed.size() > 2) ? parsed.at(2) : "no description";
       controller.AddTask(str1, str2);
@@ -96,7 +102,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
     case CommandType::DELETE:
       // validate deletion index
       try {
-        // convert index string to int and delte
+        // convert index string to int and delete
         controller.DeleteTask(stoi(parsed.at(1)));
       } catch (const std::invalid_argument& ia) {
         // stoi failed to parse argument, print proper usage message
@@ -126,7 +132,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       break;
     case CommandType::QUIT:
       return false;
-    default:  
+    default: 
       std::cout << "Command '" << parsed.at(0) << "' not recognized.\n";
   }
   return true;

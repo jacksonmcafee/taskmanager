@@ -50,7 +50,7 @@ void Controller::AddTask(Task task) {
   taskList.push_back(task);
 }
 
-void Controller::DeleteTask(int index) {
+void Controller::DeleteTask(size_t index) {
   // check if index is valid  
   if (validateIndex(index)) {
     // remove task at index
@@ -65,7 +65,7 @@ void Controller::ClearTaskList() {
   taskList.clear();
 }
 
-void Controller::ShowTask(int index) {
+void Controller::ShowTask(size_t index) {
   // check if index is valid
   if (validateIndex(index)) {
     // display task at index
@@ -78,7 +78,7 @@ void Controller::ShowTask(int index) {
 
 void Controller::ShowTasks() {
   // iterate through taskList and show each task
-  for (int i = 0; i < taskList.size(); ++i) {
+  for (size_t i = 0; i < taskList.size(); ++i) {
     ShowTask(i);
   }
 }
@@ -87,7 +87,7 @@ std::vector<std::tuple<int, Task>> Controller::SearchTasks(std::string search) {
   std::vector<std::tuple<int, Task>> tVec;
 
   // iterate through tasklist and check if Task.name or Task.description match
-  for (int i = 0; i < taskList.size(); ++i) {
+  for (size_t i = 0; i < taskList.size(); ++i) {
     Task task = taskList[i];
     if (task.getName() == search || task.getDescription() == search) {
       tVec.emplace_back(std::make_tuple(i, task));
