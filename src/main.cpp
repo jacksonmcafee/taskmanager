@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
   std::string input;
   std::vector<std::string> parsed;
 
-  // handle command input  
+  // handle single-command input  
   if (argc > 1) {
     // parse input 
     input = condenseArgv(argv);
@@ -99,10 +99,12 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
         // convert index string to int and delte
         controller.DeleteTask(stoi(parsed.at(1)));
       } catch (const std::invalid_argument& ia) {
+        // stoi failed to parse argument, print proper usage message
         std::cerr << "Passed value '" << parsed.at(1) << "' is invalid.\n";
         std::cerr << UsageMessages::GetDeleteUsage() << "\n";
       } catch (const std::out_of_range& oor) {
-        std::cerr << oor.what() << "\n";
+        // index is outside of the range of parsed, print proper usage message
+        std::cerr << "Passed index is out of range.\n";
         std::cerr << UsageMessages::GetDeleteUsage() << "\n"; 
       }
       break;
@@ -110,7 +112,17 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       controller.ShowTasks();
       break;
     case CommandType::SHOW:
-      controller.ShowTask(parsed.at(1));
+      try {
+        controller.ShowTask(stoi(parsed.at(1)));
+      } catch (const std::invalid_argument& ia) {
+        // stoi failed to parse argument, print proper usage message
+        std::cerr << "Passed value '" << parsed.at(1) << "' is invalid.\n";
+        std::cerr << UsageMessages::GetShowUsage() << "\n";
+      } catch (const std::out_of_range& oor) {
+        // index is outside of the range of parsed, print proper usage message
+        std::cerr << "Passed index is out of range.\n";
+        std::cerr << UsageMessages::GetShowUsage() << "\n"; 
+      }
       break;
     case CommandType::QUIT:
       return false;

@@ -52,12 +52,13 @@ void Controller::AddTask(Task task) {
 
 void Controller::DeleteTask(int index) {
   // check if index is valid  
-  if (index < 0 || index >= taskList.size()) {
-      throw std::out_of_range("Index out of range: " + std::to_string(index));
+  if (validateIndex(index)) {
+    // remove task at index
+    taskList.erase(taskList.begin() + index);
+  } else {
+    // index was invalid, print error
+    std::cerr << "Passed index '" << index << "' is out of range.\n";
   }
-  
-  // remove task at index
-  taskList.erase(taskList.begin() + index);
 }
 
 void Controller::ClearTaskList() {
@@ -66,16 +67,13 @@ void Controller::ClearTaskList() {
 
 void Controller::ShowTask(int index) {
   // check if index is valid
-  if (index < 0 && index >= taskList.size()) {
-    return;
+  if (validateIndex(index)) {
+    // display task at index
+    std::cout << index << ". " << taskList.at(index).GetInfo() << "\n";
+  } else {
+    // index was invalid, print error
+    std::cerr << "Passed index '" << index << "' is out of range.\n";
   }
-
-  // display task at index
-  std::cout << index << ". " << taskList[index].GetInfo() << "\n";
-}
-
-void Controller::ShowTask(Task task) {
-  std::cout << task.GetInfo() << "\n";
 }
 
 void Controller::ShowTasks() {

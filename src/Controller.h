@@ -17,13 +17,21 @@ class Controller {
   
     // tasklist display
     void ShowTask(int index);
-    void ShowTask(Task task);
     void ShowTasks();
  
     // search for tasks
     std::vector<std::tuple<int, Task>> SearchTasks(std::string search);
-
+    
     // tasklist
     std::vector<Task> taskList;
     std::string file;
+
+  private:
+    bool validateIndex(int index) {
+      if (index < 0 || index >= taskList.size()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
 };
