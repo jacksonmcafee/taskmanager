@@ -50,14 +50,16 @@ void Controller::AddTask(Task task) {
   taskList.push_back(task);
 }
 
-void Controller::DeleteTask(size_t index) {
+bool Controller::DeleteTask(size_t index) {
   // check if index is valid  
   if (validateIndex(index)) {
     // remove task at index
     taskList.erase(taskList.begin() + index);
+    return true;
   } else {
     // index was invalid, print error
     std::cerr << "Passed index '" << index << "' is out of range.\n";
+    return false;
   }
 }
 

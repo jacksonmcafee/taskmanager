@@ -12,7 +12,7 @@ class Controller {
     // tasklist modification 
     void AddTask(std::string name, std::string description);
     void AddTask(Task task);
-    void DeleteTask(size_t index);
+    bool DeleteTask(size_t index);
     void ClearTaskList();
   
     // tasklist display

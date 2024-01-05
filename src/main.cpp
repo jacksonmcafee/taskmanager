@@ -93,17 +93,20 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   switch (command) {
     case CommandType::ADD:
       // handle out of range access
+      // TODO: standardize index validation by using Controller::validateIndex
       // TODO: Warn if no name or desc were passed, use GetAddUsage()
       // instead of adding a blank Task
       str1 = (parsed.size() > 1) ? parsed.at(1) : "no name";
       str2 = (parsed.size() > 2) ? parsed.at(2) : "no description";
       controller.AddTask(str1, str2);
+      std::cout << "Successfully added a new task.\n";
       break;
     case CommandType::DELETE:
-      // validate deletion index
       try {
         // convert index string to int and delete
-        controller.DeleteTask(stoi(parsed.at(1)));
+        if (controller.DeleteTask(stoi(parsed.at(1)))) {
+          std::cout << "Successfully deleted a task.\n";
+        }
       } catch (const std::invalid_argument& ia) {
         // stoi failed to parse argument, print proper usage message
         std::cerr << "Passed value '" << parsed.at(1) << "' is invalid.\n";
@@ -127,7 +130,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       } catch (const std::out_of_range& oor) {
         // index is outside of the range of parsed, print proper usage message
         std::cerr << "Passed index is out of range.\n";
-        std::cerr << UsageMessages::GetShowUsage() << "\n"; 
+        std::cerr << UsageMessages::GetShowUsage() << "\n";
       }
       break;
     case CommandType::QUIT:
@@ -135,6 +138,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
     default: 
       std::cout << "Command '" << parsed.at(0) << "' not recognized.\n";
   }
+  std::cout << "\n";
   return true;
 }
 
