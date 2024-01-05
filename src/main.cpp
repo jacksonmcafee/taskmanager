@@ -135,6 +135,12 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       break;
     case CommandType::QUIT:
       return false;
+    case CommandType::HELP:
+      std::cout << "Commands: ";
+      for (auto entry : commandMap) {
+        std::cout << entry.first << ", ";
+      }
+      break;
     default: 
       std::cout << "Command '" << parsed.at(0) << "' not recognized.\n";
   }

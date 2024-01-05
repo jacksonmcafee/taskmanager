@@ -6,4 +6,5 @@ std::map<std::string, CommandType> commandMap = {
     {"list", CommandType::LIST},
     {"show", CommandType::SHOW},
     {"quit", CommandType::QUIT},
+    {"help", CommandType::HELP},
 };

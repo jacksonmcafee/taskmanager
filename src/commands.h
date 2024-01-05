@@ -11,6 +11,7 @@ enum class CommandType {
     LIST,
     SHOW,
     QUIT,
+    HELP,
 };
 
 extern std::map<std::string, CommandType> commandMap;
