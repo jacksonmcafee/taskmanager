@@ -2,10 +2,14 @@
 
 namespace UsageMessages {
     const char* GetAddUsage() {
-        return "Usage: add 'task name' 'task description'";
+      return "Usage: add 'task name' 'task description'";
     }
 
     const char* GetDeleteUsage() {
-        return "Usage: delete <index>";
+      return "Usage: delete <index>";
+    }
+
+    const char* GetShowUsage() {
+      return "Usage: show <index>";
     }
 }
