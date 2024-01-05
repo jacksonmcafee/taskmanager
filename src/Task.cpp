@@ -8,7 +8,7 @@ Task::Task(std::string name, std::string description) {
 }
 
 std::string Task::GetInfo() {
-  return this->name + "\n" + this->description + "\n";
+  return this->name + " - " + this->description;
 }
 
 std::string Task::getName() {

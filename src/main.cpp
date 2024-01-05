@@ -78,7 +78,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   if (it != commandMap.end()) {
     command = it->second;
   } else {
-    command = CommandType::NONE
+    command = CommandType::NONE;
   }
 
   // initialize string variables
