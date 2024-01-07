@@ -63,7 +63,7 @@ std::string condenseArgv(char** charArray) {
         if (i > 1) {
             oss << " "; // Add the delimiter before the second and subsequent elements
         }
-        oss << charArray[i];
+        oss << '"' << charArray[i] << '"';
     }
 
     return oss.str();
