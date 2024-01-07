@@ -21,7 +21,7 @@ This is recommended for quick access (modifying single tasks, seeing current tas
 ### Interactive Mode
 ```bash
 ./taskmanager
-add "Make Granola" "Make strawberry/banana granola for Sarah"
+add "Make granola" "Make strawberry/banana granola for Sarah"
 list
 edit 0 name "Make Sarah granola"
 quit
