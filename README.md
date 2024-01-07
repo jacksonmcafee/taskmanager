@@ -10,6 +10,7 @@ Currently, it supports single-command mode and interactive mode, as shown below.
 ```bash
 ./taskmanager add "Make granola" "Make strawberry/banana granola for Sarah"
 ./taskmanager list
+./taskmanager edit 0 name "Make Sarah granola"
 ```
 
 - The first call creates a task with the name "Make Granola" and the description "Make strawberry... for Sarah". It then exits the program.
@@ -22,6 +23,7 @@ This is recommended for quick access (modifying single tasks, seeing current tas
 ./taskmanager
 add "Make Granola" "Make strawberry/banana granola for Sarah"
 list
+edit 0 name "Make Sarah granola"
 quit
 ```
 
