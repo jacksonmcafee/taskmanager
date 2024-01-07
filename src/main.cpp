@@ -7,6 +7,7 @@
 void parseInput(const std::string& input, std::vector<std::string>& result);
 std::string condenseArgv(char** charArray);
 bool handleCommand(Controller& controller, std::vector<std::string>& parsed);
+CommandType getCommand(std::string commandStr);
 
 int main(int argc, char* argv[]) {
   // instantiate controller
@@ -77,12 +78,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   // otherwise, command is of type CommandType::NONE
   CommandType command;
   try {
-    auto it = commandMap.find(parsed.at(0)); 
-    if (it != commandMap.end()) {
-      command = it->second;
-    } else {
-      command = CommandType::NONE;
-    }
+    command = getCommand(parsed.at(0));
   } catch (const std::out_of_range& oor) {
     // parsed is empty, no arg passed, don't handle
     return true;
@@ -111,7 +107,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
         // NOTE: Is this explicitly necessary?
         // Already warned about nameless creation above?
         std::cout << "Failed to add a new task.\n";
-      }
+      } 
       break;
     case CommandType::DELETE:
       try {
@@ -185,6 +181,14 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   }
   std::cout << "\n";
   return true;
+}
+
+CommandType getCommand(std::string commandStr) {
+  auto it = commandMap.find(commandStr); 
+  if (it != commandMap.end()) {
+    return it->second;
+  }
+  return CommandType::NONE;
 }
 
 /*
