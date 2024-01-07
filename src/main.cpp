@@ -63,7 +63,7 @@ std::string condenseArgv(char** charArray) {
     // start at element 1 to ignore calling command
     for (int i = 1; charArray[i] != nullptr; ++i) {
         if (i > 1) {
-            oss << " "; // Add space delimiter before the second and subsequent elements
+            oss << " "; // Add space before the second and subsequent elements
         }
         // keep quotation marks in-place for parsing
         oss << '"' << charArray[i] << '"';
@@ -118,7 +118,8 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
               std::cout << "Successfully deleted a task.\n";
           }
       } else {
-          // stoi failed to parse argument or insufficient arguments, print proper usage message
+          // stoi failed to parse argument or insufficient arguments
+          // print proper usage message
           std::cerr << "Invalid or missing index for the 'delete' command.\n";
           std::cerr << UsageMessages::GetDeleteUsage() << "\n";
       }
@@ -163,7 +164,8 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
           // call ShowTask if everything is valid
           controller.ShowTask(index);
       } else {
-          // stoi failed to parse argument or insufficient arguments, print proper usage message
+          // stoi failed to parse argument or insufficient arguments
+          // print proper usage message
           std::cerr << "Invalid or missing index for the 'show' command.\n";
           std::cerr << UsageMessages::GetShowUsage() << "\n";
       }
