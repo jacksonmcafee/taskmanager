@@ -40,14 +40,13 @@ Controller::~Controller() {
   taskList.clear();
 }
 
-void Controller::AddTask(std::string name = "", std::string description = "") {
+bool Controller::AddTask(std::string name, std::string description) {
   // instantiate new task and push to taskList
+  if (name == "") {
+    return false;
+  }
   taskList.emplace_back(Task(name, description));
-}
-
-void Controller::AddTask(Task task) {
-  // take task object and push to taskList
-  taskList.push_back(task);
+  return true;
 }
 
 bool Controller::DeleteTask(size_t index) {
@@ -55,12 +54,27 @@ bool Controller::DeleteTask(size_t index) {
   if (validateIndex(index)) {
     // remove task at index
     taskList.erase(taskList.begin() + index);
-    return true;
   } else {
     // index was invalid, print error
     std::cerr << "Passed index '" << index << "' is out of range.\n";
     return false;
   }
+  return true;
+}
+
+bool Controller::EditTask(int index, std::string nd, std::string value) { 
+  if (validateIndex(index)) {
+    if (nd == "name") {
+      taskList.at(index).setName(value);
+    } else {
+      taskList.at(index).setDescription(value);
+    } 
+  } else {
+    // index was invalid, print error
+    std::cerr << "Passed index '" << index << "' is out of range.\n";
+    return false;
+  }
+  return true; 
 }
 
 void Controller::ClearTaskList() {

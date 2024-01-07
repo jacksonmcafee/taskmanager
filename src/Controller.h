@@ -10,9 +10,9 @@ class Controller {
     ~Controller();
 
     // tasklist modification 
-    void AddTask(std::string name, std::string description);
-    void AddTask(Task task);
+    bool AddTask(std::string name, std::string description);
     bool DeleteTask(size_t index);
+    bool EditTask(int index, std::string value, std::string nd);
     void ClearTaskList();
   
     // tasklist display
