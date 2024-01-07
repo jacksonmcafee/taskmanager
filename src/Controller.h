@@ -13,22 +13,23 @@ class Controller {
     bool AddTask(std::string name, std::string description);
     bool DeleteTask(size_t index);
     bool EditTask(int index, std::string value, std::string nd);
-    void ClearTaskList();
+    void ClearTasklist();
   
     // tasklist display
     void ShowTask(size_t index);
-    void ShowTasks();
+    bool ShowTasks();
  
     // search for tasks
     std::vector<std::tuple<int, Task>> SearchTasks(std::string search);
     
     // tasklist
-    std::vector<Task> taskList;
+    std::vector<Task> tasklist;
     std::string file;
 
   private:
+    // checks if an index is within the tasklist
     bool validateIndex(size_t index) {
-      if (index < 0 || index >= taskList.size()) {
+      if (index < 0 || index >= tasklist.size()) {
         return false;
       } else {
         return true;

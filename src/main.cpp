@@ -62,8 +62,9 @@ std::string condenseArgv(char** charArray) {
     // start at element 1 to ignore calling command
     for (int i = 1; charArray[i] != nullptr; ++i) {
         if (i > 1) {
-            oss << " "; // Add the delimiter before the second and subsequent elements
+            oss << " "; // Add space delimiter before the second and subsequent elements
         }
+        // keep quotation marks in-place for parsing
         oss << '"' << charArray[i] << '"';
     }
 
@@ -95,9 +96,6 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   switch (command) {
     case CommandType::ADD:
       // handle out of range access
-      // TODO: standardize index validation by using Controller::validateIndex
-      // TODO: Warn if no name or desc were passed, use GetAddUsage()
-      // instead of adding a blank Task 
       try { str1 = parsed.at(1); }
       catch (const std::out_of_range& oor) { 
         str1 = "";
@@ -110,6 +108,8 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       if (controller.AddTask(str1, str2)) {
         std::cout << "Successfully added a new task.\n";
       } else {
+        // NOTE: Is this explicitly necessary?
+        // Already warned about nameless creation above?
         std::cout << "Failed to add a new task.\n";
       }
       break;
@@ -147,12 +147,14 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
         std::cerr << "Passed index is out of range.\n";
         std::cerr << UsageMessages::GetEditUsage() << "\n"; 
       } catch (const std::runtime_error& re) {
-        std::cerr << "Argument must be 'name' or 'description'\n";
+        std::cerr << "Middle argument must be 'name' or 'description'\n";
         std::cerr << UsageMessages::GetEditUsage() << "\n";
       }
       break;
     case CommandType::LIST:
-      controller.ShowTasks();
+      if (!controller.ShowTasks()) {
+        std::cout << "Your tasklist is empty.\n";
+      }
       break;
     case CommandType::SHOW:
       try {
