@@ -8,7 +8,8 @@ Task::Task(std::string name, std::string description) {
 }
 
 std::string Task::GetInfo() {
-  return this->name + " - " + this->description;
+  if (this->description == "") { return this->name; }
+  else { return this->name + " - " + this->description; }
 }
 
 std::string Task::getName() {
