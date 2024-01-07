@@ -78,8 +78,10 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   // otherwise, command is CommandType::NONE
   CommandType command;
   if (parsed.size() > 0) {
+    // parsed has some number of args, try to handle command
     command = getCommand(parsed.at(0));
   } else {
+    // parsed is empty, do not handle
     return true;
   }
 
