@@ -32,6 +32,7 @@ int main(int argc, char* argv[]) {
   }
     
   // handle interactive input
+  std::cout << "Entering interactive mode. Type 'help' for a list of commands.\n\n";
   while (continueLoop && std::getline(std::cin, input)) {
     // parse input
     parsed.clear();
@@ -100,7 +101,8 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       try { str1 = parsed.at(1); }
       catch (const std::out_of_range& oor) { 
         str1 = "";
-        std::cout << "No name passed, task cannot be created.\n"; 
+        std::cerr << "No name passed, task cannot be created.\n"; 
+        std::cerr << UsageMessages::GetAddUsage() << "\n";
       }
       try { str2 = parsed.at(2); } 
       catch (const std::out_of_range& oor) { str2 = ""; }
@@ -169,6 +171,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
     case CommandType::QUIT:
       return false;
     case CommandType::HELP:
+      std::cout << UsageMessages::GetHelpUsage() << "\n";
       std::cout << "Commands: " + commandList + "\n";
       break;
     default:

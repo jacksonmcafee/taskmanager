@@ -16,4 +16,8 @@ namespace UsageMessages {
     const char* GetShowUsage() {
       return "Usage: show [index]";
     }
+
+    const char* GetHelpUsage() {
+      return "Usage: help [command]";
+    }
 }
