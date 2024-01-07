@@ -7,7 +7,7 @@
 class Task {
   public:
     // constructor
-    Task(std::string name = "No Name", std::string description = "No Description");
+    Task(std::string name = "", std::string description = "");
 
     // show task
     std::string GetInfo();
