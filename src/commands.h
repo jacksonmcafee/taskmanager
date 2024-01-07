@@ -8,6 +8,7 @@ enum class CommandType {
     NONE,
     ADD,
     DELETE,
+    EDIT,
     LIST,
     SHOW,
     QUIT,
@@ -15,5 +16,6 @@ enum class CommandType {
 };
 
 extern std::map<std::string, CommandType> commandMap;
+extern std::string commandList;
 
 #endif // COMMANDS_H
