@@ -86,8 +86,9 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
     return true;
   }
 
-  // initialize string variables
+  // initialize variables before switch
   std::string str1, str2;
+  int index;
 
   // handle commands
   switch (command) {
@@ -95,16 +96,26 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
       // handle out of range access
       // TODO: standardize index validation by using Controller::validateIndex
       // TODO: Warn if no name or desc were passed, use GetAddUsage()
-      // instead of adding a blank Task
-      str1 = (parsed.size() > 1) ? parsed.at(1) : "no name";
-      str2 = (parsed.size() > 2) ? parsed.at(2) : "no description";
-      controller.AddTask(str1, str2);
-      std::cout << "Successfully added a new task.\n";
+      // instead of adding a blank Task 
+      try { str1 = parsed.at(1); }
+      catch (const std::out_of_range& oor) { 
+        str1 = "";
+        std::cout << "No name passed, task cannot be created.\n"; 
+      }
+      try { str2 = parsed.at(2); } 
+      catch (const std::out_of_range& oor) { str2 = ""; }
+
+      if (controller.AddTask(str1, str2)) {
+        std::cout << "Successfully added a new task.\n";
+      } else {
+        std::cout << "Failed to add a new task.\n";
+      }
       break;
     case CommandType::DELETE:
       try {
         // convert index string to int and delete
-        if (controller.DeleteTask(stoi(parsed.at(1)))) {
+        index = stoi(parsed.at(1));
+        if (controller.DeleteTask(index)) {
           std::cout << "Successfully deleted a task.\n";
         }
       } catch (const std::invalid_argument& ia) {
@@ -117,12 +128,34 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
         std::cerr << UsageMessages::GetDeleteUsage() << "\n"; 
       }
       break;
+    case CommandType::EDIT:
+      try {
+        // get index & name/desc flag
+        index = stoi(parsed.at(1));
+        if (parsed.at(2) != "name" && parsed.at(2) != "description") {
+          throw std::runtime_error("");
+        }
+        controller.EditTask(index, parsed.at(2), parsed.at(3));
+      } catch (const std::invalid_argument& ia) {
+        // stoi failed to parse argument, print proper usage message
+        std::cerr << "Passed value '" << parsed.at(1) << "' is invalid.\n";
+        std::cerr << UsageMessages::GetEditUsage() << "\n";
+      } catch (const std::out_of_range& oor) {
+        // index is outside of the range of parsed, print proper usage message
+        std::cerr << "Passed index is out of range.\n";
+        std::cerr << UsageMessages::GetEditUsage() << "\n"; 
+      } catch (const std::runtime_error& re) {
+        std::cerr << "Argument must be 'name' or 'description'\n";
+        std::cerr << UsageMessages::GetEditUsage() << "\n";
+      }
+      break;
     case CommandType::LIST:
       controller.ShowTasks();
       break;
     case CommandType::SHOW:
       try {
-        controller.ShowTask(stoi(parsed.at(1)));
+        index = stoi(parsed.at(1));
+        controller.ShowTask(index);
       } catch (const std::invalid_argument& ia) {
         // stoi failed to parse argument, print proper usage message
         std::cerr << "Passed value '" << parsed.at(1) << "' is invalid.\n";
@@ -136,13 +169,14 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
     case CommandType::QUIT:
       return false;
     case CommandType::HELP:
-      std::cout << "Commands: ";
-      for (auto entry : commandMap) {
-        std::cout << entry.first << ", ";
-      }
+      std::cout << "Commands: " + commandList + "\n";
       break;
-    default: 
-      std::cout << "Command '" << parsed.at(0) << "' not recognized.\n";
+    default:
+      try { 
+        std::cout << "Command '" << parsed.at(0) << "' not recognized.\n";
+      } catch (const std::out_of_range& oor) {
+        ;
+      }
   }
   std::cout << "\n";
   return true;
