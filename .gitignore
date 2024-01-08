@@ -35,3 +35,4 @@ taskmanager
 # Data files
 *.json
 *.xml
+.DS_STORE

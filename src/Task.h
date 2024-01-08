@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TASK_H
+#define TASK_H
 
 #include <string>
 #include "cereal/archives/json.hpp"
@@ -28,3 +29,5 @@ class Task {
     std::string name;
     std::string description;
 };
+
+#endif // TASK_H

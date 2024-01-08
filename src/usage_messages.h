@@ -1,4 +1,5 @@
-#pragma once
+#ifndef USAGE_MESSAGES_H
+#define USAGE_MESSAGES_H
 
 namespace UsageMessages {
     const char* GetAddUsage();
@@ -8,3 +9,5 @@ namespace UsageMessages {
     const char* GetHelpUsage();
     const char* GetQuitUsage();
 }
+
+#endif // USAGE_MESSAGES_H

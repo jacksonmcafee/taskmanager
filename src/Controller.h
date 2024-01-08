@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 #include "Task.h"
 #include <tuple>
@@ -36,3 +37,5 @@ class Controller {
       }
     }
 };
+
+#endif // CONTROLLER_H
