@@ -20,4 +20,8 @@ namespace UsageMessages {
     const char* GetHelpUsage() {
       return "Usage: help [command]";
     }
+
+    const char* GetQuitUsage() {
+      return "Usage: quit";
+    }
 }

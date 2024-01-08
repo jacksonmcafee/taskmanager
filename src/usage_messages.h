@@ -6,4 +6,5 @@ namespace UsageMessages {
     const char* GetEditUsage();
     const char* GetShowUsage();
     const char* GetHelpUsage();
+    const char* GetQuitUsage();
 }

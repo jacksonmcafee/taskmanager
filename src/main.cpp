@@ -8,6 +8,7 @@ void parseInput(const std::string& input, std::vector<std::string>& result);
 std::string condenseArgv(char** charArray);
 bool handleCommand(Controller& controller, std::vector<std::string>& parsed);
 CommandType getCommand(std::string commandStr);
+const char* GetCommandUsage(CommandType command);
 
 int main(int argc, char* argv[]) {
   // instantiate controller
@@ -104,7 +105,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
           }
       } else {
           std::cerr << "No name passed, task cannot be created.\n";
-          std::cerr << UsageMessages::GetAddUsage() << "\n";
+          std::cerr << GetCommandUsage(command) << "\n";
       }
       break;
    case CommandType::DELETE: 
@@ -121,7 +122,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
           // stoi failed to parse argument or insufficient arguments
           // print proper usage message
           std::cerr << "Invalid or missing index for the 'delete' command.\n";
-          std::cerr << UsageMessages::GetDeleteUsage() << "\n";
+          std::cerr << GetCommandUsage(command) << "\n";
       }
       break;
     case CommandType::EDIT:
@@ -137,17 +138,17 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
                   controller.EditTask(index, parsed.at(2), parsed.at(3));
               } else {
                   std::cerr << "Middle argument must be 'name' or 'description'\n";
-                  std::cerr << UsageMessages::GetEditUsage() << "\n";
+                  std::cerr << GetCommandUsage(command) << "\n";
               }
           } else {
               // stoi failed to parse argument, print proper usage message
               std::cerr << "Passed value '" << parsed.at(1) << "' is invalid.\n";
-              std::cerr << UsageMessages::GetEditUsage() << "\n";
+              std::cerr << GetCommandUsage(command) << "\n";
           }
       } else {
           // not enough arguments, print proper usage message
           std::cerr << "Insufficient arguments for the 'edit' command.\n";
-          std::cerr << UsageMessages::GetEditUsage() << "\n";
+          std::cerr << GetCommandUsage(command) << "\n";
       }
       break;
     case CommandType::LIST:
@@ -167,14 +168,22 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
           // stoi failed to parse argument or insufficient arguments
           // print proper usage message
           std::cerr << "Invalid or missing index for the 'show' command.\n";
-          std::cerr << UsageMessages::GetShowUsage() << "\n";
+          std::cerr << GetCommandUsage(command) << "\n";
       }
       break;
     case CommandType::QUIT:
       return false;
     case CommandType::HELP:
-      std::cout << UsageMessages::GetHelpUsage() << "\n";
-      std::cout << "Commands: " + commandList + "\n";
+      // check if extra arg was passed 
+      if (parsed.size() > 1) {
+        // get command and print usage information
+        command = getCommand(parsed.at(1));
+        std::cout << GetCommandUsage(command) << "\n";
+      } else {
+        // print general usage 
+        std::cout << UsageMessages::GetHelpUsage() << "\n";
+        std::cout << "Commands: " + commandList + "\n";
+      }
       break;
     default:
       if (parsed.size() > 0) {
@@ -192,6 +201,29 @@ CommandType getCommand(std::string commandStr) {
     return it->second;
   }
   return CommandType::NONE;
+}
+
+// returns usage text for a given command
+const char* GetCommandUsage(CommandType command) {
+  switch (command) {
+    case CommandType::ADD:
+      return UsageMessages::GetAddUsage();
+      break;
+    case CommandType::DELETE:
+      return UsageMessages::GetDeleteUsage();
+      break;
+    case CommandType::EDIT:
+      return UsageMessages::GetEditUsage();
+      break;
+    case CommandType::SHOW:
+      return UsageMessages::GetShowUsage();
+      break;
+     case CommandType::QUIT:
+      return UsageMessages::GetQuitUsage();
+      break;   
+    default:
+      return UsageMessages::GetHelpUsage();
+  }
 }
 
 /*
