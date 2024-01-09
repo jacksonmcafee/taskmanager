@@ -11,7 +11,7 @@ class Controller {
     ~Controller();
 
     // tasklist modification 
-    bool AddTask(std::string name, std::string description);
+    bool AddTask(std::string name, std::string description, std::chrono::system_clock::time_point due_date);
     bool DeleteTask(size_t index);
     bool EditTask(int index, std::string value, std::string nd);
     void ClearTasklist();
