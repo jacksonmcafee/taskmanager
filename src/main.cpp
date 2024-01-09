@@ -1,7 +1,6 @@
 #include "Controller.h"
 #include "usage_messages.h"
 #include "commands.h"
-#include <sstream>
 #include <iomanip>
 
 void parseInput(const std::string& input, std::vector<std::string>& result);
@@ -9,6 +8,7 @@ std::string condenseArgv(char** charArray);
 bool handleCommand(Controller& controller, std::vector<std::string>& parsed);
 CommandType getCommand(std::string commandStr);
 const char* GetCommandUsage(CommandType command);
+std::chrono::system_clock::time_point parseDate(std::string date);
 
 int main(int argc, char* argv[]) {
   // instantiate controller
@@ -89,6 +89,7 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   // initialize variables before switch
   std::string str1, str2;
   int index;
+  std::chrono::system_clock::time_point date;
 
   // handle commands
   switch (command) {
@@ -98,7 +99,10 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
           str1 = parsed.at(1);
           str2 = (parsed.size() > 2) ? parsed.at(2) : "";
 
-          if (controller.AddTask(str1, str2)) {
+          // TODO: now() should be standardized to something like epoch
+          date = (parsed.size() > 3) ? parseDate(parsed.at(3)) : std::chrono::system_clock::now();
+
+          if (controller.AddTask(str1, str2, date)) {
               std::cout << "Successfully added a new task.\n";
           } else {
               std::cout << "Failed to add a new task.\n";
@@ -224,6 +228,34 @@ const char* GetCommandUsage(CommandType command) {
     default:
       return UsageMessages::GetHelpUsage();
   }
+}
+
+std::chrono::system_clock::time_point parseDate(std::string date) {
+  // create a stringstream to parse the input string
+  std::istringstream dateStream(date);
+
+  // extract month, day, and year from the string
+  int month, day, year;
+  char delimiter;
+
+  dateStream >> month >> delimiter >> day >> delimiter >> year;
+
+  // check if parsing was successful
+  if (dateStream.fail() || dateStream.bad()) {
+    // TODO: now() should be standardized to something like epoch
+    return std::chrono::system_clock::now();
+  }
+
+  // convert to tm structure
+  std::tm timeInfo = {};
+  timeInfo.tm_mon = month - 1;  // adjust month to be zero-based
+  timeInfo.tm_mday = day;
+  timeInfo.tm_year = year + 100;  // adjust year (assuming years in "YY" format)
+
+  // convert to time_point
+  std::chrono::system_clock::time_point timePoint = std::chrono::system_clock::from_time_t(std::mktime(&timeInfo));
+
+  return timePoint;
 }
 
 /*

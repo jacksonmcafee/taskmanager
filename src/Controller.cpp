@@ -40,12 +40,12 @@ Controller::~Controller() {
   tasklist.clear();
 }
 
-bool Controller::AddTask(std::string name, std::string description) {
+bool Controller::AddTask(std::string name, std::string description, std::chrono::system_clock::time_point due_date) {
   // instantiate new task and push to tasklist
   if (name == "") {
     return false;
   }
-  tasklist.emplace_back(Task(name, description));
+  tasklist.emplace_back(Task(name, description, due_date));
   return true;
 }
 
