@@ -2,13 +2,12 @@
 
 taskmanager is a basic task-tracking CLI tool. 
 
-
 ## Usage/Examples
 Currently, it supports single-command mode and interactive mode, as shown below.
 
 ### Single-command Mode
 ```bash
-./taskmanager add "Make granola" "Make strawberry/banana granola for Sarah"
+./taskmanager add "Make granola" "Make strawberry/banana granola for Sarah" 01/14/24
 ./taskmanager list
 ./taskmanager edit 0 name "Make Sarah granola"
 ```
@@ -21,7 +20,7 @@ This is recommended for quick access (modifying single tasks, seeing current tas
 ### Interactive Mode
 ```bash
 ./taskmanager
-add "Make granola" "Make strawberry/banana granola for Sarah"
+add "Make granola" "Make strawberry/banana granola for Sarah" 01/14/24
 list
 edit 0 name "Make Sarah granola"
 quit
