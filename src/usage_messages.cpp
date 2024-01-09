@@ -24,4 +24,8 @@ namespace UsageMessages {
     const char* GetQuitUsage() {
       return "Usage: quit";
     }
+    
+    const char* GetListUsage() {
+      return "Usage: list";
+    }
 }

@@ -222,9 +222,12 @@ const char* GetCommandUsage(CommandType command) {
     case CommandType::SHOW:
       return UsageMessages::GetShowUsage();
       break;
-     case CommandType::QUIT:
+    case CommandType::QUIT:
       return UsageMessages::GetQuitUsage();
       break;   
+    case CommandType::LIST:
+      return UsageMessages::GetListUsage();
+      break;
     default:
       return UsageMessages::GetHelpUsage();
   }

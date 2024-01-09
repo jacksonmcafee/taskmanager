@@ -8,6 +8,7 @@ namespace UsageMessages {
     const char* GetShowUsage();
     const char* GetHelpUsage();
     const char* GetQuitUsage();
+    const char* GetListUsage();
 }
 
 #endif // USAGE_MESSAGES_H
