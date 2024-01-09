@@ -4,15 +4,15 @@
 #include <iomanip>
 
 // default constructor
-Task::Task(std::string name, std::string description, std::chrono::system_clock::time_point due_date) {
+Task::Task(std::string name, std::string description, std::chrono::system_clock::time_point date) {
   this->name = name;
   this->description = description;
-  this->due_date = due_date;
+  this->date = date;
 }
 
 std::string Task::GetInfo() {
   std::string str = "";
-  str += formatDate(due_date) + " ";
+  str += formatDate(date) + " ";
   str += name;
   str += (description == "") ? "" : " - " + description;
   return str;
@@ -34,12 +34,12 @@ void Task::setDescription(std::string description) {
   this->description = description;
 }
 
-std::chrono::system_clock::time_point Task::getDueDate() {
-  return due_date;
+std::chrono::system_clock::time_point Task::getDate() {
+  return date;
 }
 
-void Task::setDueDate(std::chrono::system_clock::time_point due_date) {
-  this->due_date = due_date;
+void Task::setDate(std::chrono::system_clock::time_point date) {
+  this->date = date;
 }
 
 std::string Task::formatDate(std::chrono::system_clock::time_point date) {
