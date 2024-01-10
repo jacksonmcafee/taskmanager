@@ -17,5 +17,6 @@ enum class CommandType {
 
 extern std::map<std::string, CommandType> commandMap;
 extern std::string commandList;
+extern CommandType getCommand(std::string commandStr);
 
 #endif // COMMANDS_H

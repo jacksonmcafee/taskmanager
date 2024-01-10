@@ -11,3 +11,14 @@ std::map<std::string, CommandType> commandMap = {
 };
 
 std::string commandList = "add, delete, edit, list, show, quit, help";
+
+// returns a mapped command when passed a string
+CommandType getCommand(std::string commandStr) {
+  auto it = commandMap.find(commandStr); 
+  if (it != commandMap.end()) {
+    return it->second;
+  }
+  return CommandType::NONE;
+}
+
+

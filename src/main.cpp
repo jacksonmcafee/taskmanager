@@ -198,15 +198,6 @@ bool handleCommand(Controller& controller, std::vector<std::string>& parsed) {
   return true;
 }
 
-// returns a mapped command when passed a string
-CommandType getCommand(std::string commandStr) {
-  auto it = commandMap.find(commandStr); 
-  if (it != commandMap.end()) {
-    return it->second;
-  }
-  return CommandType::NONE;
-}
-
 // returns usage text for a given command
 const char* GetCommandUsage(CommandType command) {
   switch (command) {
